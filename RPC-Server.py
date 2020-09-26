@@ -27,6 +27,7 @@ server.register_function(sign_in_function, 'sign_in')
 
 def hash_function(client_hash):
     import hashlib
+    global access_granted
     string = pw1 + hash_num
     hash_value = hashlib.md5(string.encode('utf-8')).hexdigest()
     if hash_value == client_hash:
@@ -36,10 +37,10 @@ def hash_function(client_hash):
         access_granted = False
         return "access denied"
 server.register_function(hash_function, 'hash_function')
-   
 
+
+test = access_granted
 if access_granted == True:
-
     # Register pow() function; this will use the value of
     # pow.__name__ as the name, which is just 'pow'.
     server.register_function(pow)
@@ -54,8 +55,8 @@ if access_granted == True:
     class MyFuncs:
         def div(self, x, y):
             return x // y
-
     server.register_instance(MyFuncs())
+
 
 
 
