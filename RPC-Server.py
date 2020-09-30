@@ -2,10 +2,11 @@ from xmlrpc.server import SimpleXMLRPCServer
 from xmlrpc.server import SimpleXMLRPCRequestHandler
 
 pw1 = "abc12345"
+user = "Sven"
 
 hash_num = "0"
 
-access_granted = False
+access_granted = True
 
 # Restrict to a particular path.
 class RequestHandler(SimpleXMLRPCRequestHandler):
@@ -16,6 +17,8 @@ server = SimpleXMLRPCServer(("localhost", 8000),
                             requestHandler=RequestHandler)
 server.register_introspection_functions()
 
+
+# Generate random number
 def sign_in_function():
     import random
     random_num = random.randrange(1, 99999)
@@ -25,9 +28,21 @@ def sign_in_function():
     return str_random_num
 server.register_function(sign_in_function, 'sign_in')
 
+# Compare login data
+def check_login_function(client_user, client_pasword):
+    if client_pasword == pw1 and client_user == "" : 
+        login == True
+        return login
+    else: 
+        login == False
+        return login
+server.register_function(check_login_function, 'check_login')
+
+
+# Compare hash values
 def hash_function(client_hash):
-    import hashlib
     global access_granted
+    import hashlib
     string = pw1 + hash_num
     hash_value = hashlib.md5(string.encode('utf-8')).hexdigest()
     if hash_value == client_hash:
@@ -39,24 +54,21 @@ def hash_function(client_hash):
 server.register_function(hash_function, 'hash_function')
 
 
-test = access_granted
+# RPC functions
 if access_granted == True:
-    # Register pow() function; this will use the value of
-    # pow.__name__ as the name, which is just 'pow'.
+    
     server.register_function(pow)
-
-    # Register a function under a different name
+    
     def adder_function(x,y):
         return x + y
     server.register_function(adder_function, 'add')
 
-    # Register an instance; all the methods of the instance are
-    # published as XML-RPC methods (in this case, just 'div').
     class MyFuncs:
         def div(self, x, y):
             return x // y
     server.register_instance(MyFuncs())
-
+else:
+     print("Login Daten falsch")
 
 
 
