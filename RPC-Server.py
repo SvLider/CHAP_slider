@@ -9,7 +9,6 @@ user = "Sven"
 
 hash_num = "0"
 login = False
-access_granted = True
 
 
 # Restrict to a particular path.
@@ -51,7 +50,6 @@ server.register_function(check_login_function, 'check_login')
 
 
 # RPC functions
-#server.register_function(pow)
 def pow_function(x,y):
     return x ** y
 
@@ -63,11 +61,6 @@ def adder_function(x,y):
 class MyFuncs:
     def div(self, x, y):
         return x // y
-
-
-
-
-
 
 # Run the server's main loop
 server.serve_forever()

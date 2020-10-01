@@ -12,7 +12,7 @@ while True:
     password = getpass.getpass(prompt="Bitte Passwort angeben: ")
 
 
-    # Iniiate connection
+    # Iniiate connection / get random number
     str_random_num = str(s.sign_in(username))
 
     if str_random_num != "0":
@@ -21,7 +21,7 @@ while True:
     else:
         pass
 
-
+    # use of the rpc-functions
     if username != "" and password != "":
         login = bool(s.check_login(username, hash_value))
         if login:
